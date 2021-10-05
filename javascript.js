@@ -22,33 +22,88 @@ function playRound(playerSelection, computerSelection){
     switch (playerSelection) {
         case "rock" :
             if (computerSelection === "scissor") {
-                return "You win! Rock beats Scissors!"
+                win(computerSelection);
             } else if (computerSelection === "paper") {
-                return "You lose! Paper beats Rock!"
+                loss(computerSelection);
             } else {
-                return "It's a draw!"
+                draw(computerSelection);
             }
             break;
         case "paper":
             if (computerSelection === "rock") {
-                return "You win! Paper beats Rocks!"
+                win(computerSelection);
             } else if (computerSelection === "scissor") {
-                return "You lose! Scissors beats Paper!"
+                loss(computerSelection);
             } else {
-                return "It's a draw!"
+                draw(computerSelection);
             }
             break;
         case "scissor":
             if (computerSelection === "paper") {
-                return "You win! Scissors beats Paper!"
+                win(computerSelection)
             } else if (computerSelection === "rock") {
-                return "You lose! Rock beats Scissors!"
+                loss(computerSelection);
             } else {
-                return "It's a draw!"
+                draw(computerSelection);
             }
             break;      
         
     }
+}
+
+function win(computerSelection){
+    console.log("win");
+    let pcScore = document.querySelector('.pc-score');
+    let playerScore = document.querySelector('.player-score');
+    let announcer = document.querySelector('.announcer');
+
+    if (pcScore.textContent >= 5 || playerScore.textContent >= 5){
+        announcer.textContent = "The game is already over!"
+        return;
+    }    
+
+    playerScore.textContent = parseInt(playerScore.textContent)+1;
+
+    if (playerScore.textContent == 5){
+        announcer.textContent = `The PC chose ${computerSelection}, you have won this round and the match. CONGRATULATIONS!`;
+        return;
+    }
+    announcer.textContent = `The PC chose ${computerSelection}, you have won this round!`
+}
+
+function loss(computerSelection) {
+    console.log("loss");
+    let pcScore = document.querySelector('.pc-score');
+    let playerScore = document.querySelector('.player-score');
+    let announcer = document.querySelector('.announcer');
+
+    if (pcScore.textContent >= 5 || playerScore.textContent >= 5){
+        announcer.textContent = "The game is already over!";
+        return;
+    }
+
+    pcScore.textContent = parseInt(pcScore.textContent)+1;
+
+    if (pcScore.textContent == 5){
+        announcer.textContent = `The PC chose ${computerSelection}, you have lost this round and the match. Good luck next time!`;
+        return;
+    }
+    announcer.textContent = `The PC chose ${computerSelection}, you have lost this round!`;
+}
+
+function draw(computerSelection) {
+    console.log("draw");
+    let pcScore = document.querySelector('.pc-score');
+    let playerScore = document.querySelector('.player-score');
+    let announcer = document.querySelector('.announcer');
+
+    if (pcScore.textContent >= 5 || playerScore.textContent >= 5){
+        announcer.textContent = "The game is already over!"
+        return;
+    }
+
+    announcer.textContent = `The PC also chose ${computerSelection}, it's a draw!`
+
 }
 
 function game(){
@@ -65,3 +120,12 @@ function game(){
         }
     }
 }
+
+const buttons = Array.from(document.querySelectorAll('button'));
+buttons.forEach(btn => btn.addEventListener('click', (e)=> playRound(e.target.className, computerPlay())));
+
+/*
+let rockBtn = document.querySelector('button[class="rock"');
+rockBtn.addEventListener('click', (e)=> playRound(e.target.className, computerPlay));
+
+*/
